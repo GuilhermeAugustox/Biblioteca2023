@@ -27,7 +27,7 @@ public class GeneroController {
         return "/genero/insert";
     }
 
-    @RequestMapping(value="/insert", method= RequestMethod.POST)
+    @RequestMapping(value="/insert", method=RequestMethod.POST)
     public String insert(@RequestParam("nome") String nome) {
         Genero genero = new Genero();
         genero.setNome(nome);
