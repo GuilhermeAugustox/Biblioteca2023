@@ -1,11 +1,14 @@
 package application.controller;
 
-import org.springfrawork.beans.factory.annotion.Autowired;
-import org.springfrawork.stereotype.Controller;
-import org.springfrawork.ui.Model;
-import org.springfrawork.web.bind.annotion.RequestMapping;
-import org.springfrawork.web.bind.annotion.RequestMethod;
-import org.springfrawork.web.bind.annotion.RequestParam;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 import application.model.Genero;
 import application.model.GeneroRepository;
@@ -36,9 +39,53 @@ public class GeneroController {
     }
 }
 
+    @RequestMapping("/update")
+    public String update(Model model, @RequestParam("id") int id) {
+
+        if(genero.isPresent()) {
+            model.addAttribute("genero", genero.get());
+            return "/genero/update";
+        }
+
+        return "redirect:/genero/list";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(
+        @RequestParam("id") int id;
+        @RequestParam("nome") String nome
+    ) {
+        Optional<Genero> genero = generoRepo.findById(id);
+
+        if(genero.isPresent()) {
+            genero.get().setNome(nome);
+
+            generoRepo.save(genero.get());
+        }
+
+        return "redirect:/genero/list"/
+    }
 
 
+    @RequestMapping("/delete")
+    public String delete(Model model, @RequestParam("id") int id) {
+        Optional<Genero> genero = generoRepo.findById(id);
 
+        if(genero.isPresent()) {
+            model.addAttribute("genero", genero.get());
+            return "/genero/delete";
+        }
+
+        return "redirect:/genero/list";
+
+    }
+
+    @RequestMapping(value="/delete", method = RequestMethod.POST)
+    public String delete(@RequestParam("id") int id) {
+        generoRepo.deleteById(id);
+
+        return "redirect:/genero/list";
+    }
 
 
 
