@@ -21,12 +21,12 @@ public class GeneroController {
     @RequestMapping("/list")
     public String list(Model model) {
         model.addAttribute("generos", generoRepo.findAll());
-        return "genero/list"; // Removi a barra inicial aqui
+        return "/genero/list"; // Removi a barra inicial aqui
     }
     
     @RequestMapping("/insert")
     public String insert() {
-        return "genero/insert"; // Removi a barra inicial aqui
+        return "/genero/insert"; // Removi a barra inicial aqui
     }
 
     @RequestMapping(value="/insert", method=RequestMethod.POST)
@@ -43,7 +43,7 @@ public class GeneroController {
 
         if(genero.isPresent()) {
             model.addAttribute("genero", genero.get());
-            return "genero/update"; // Removi a barra inicial aqui
+            return "/genero/update"; // Removi a barra inicial aqui
         }
 
         return "redirect:/genero/list";
@@ -70,7 +70,7 @@ public class GeneroController {
 
         if(genero.isPresent()) {
             model.addAttribute("genero", genero.get());
-            return "genero/delete"; // Removi a barra inicial aqui
+            return "/genero/delete"; // Removi a barra inicial aqui
         }
 
         return "redirect:/genero/list";
