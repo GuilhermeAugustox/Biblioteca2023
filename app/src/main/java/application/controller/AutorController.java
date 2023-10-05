@@ -58,7 +58,7 @@ public class AutorController {
 
         if(autor.isPresent()) {
             autor.get().setNome(nome);
-            autorRepo.save(genero.get());
+            autorRepo.save(autor.get());
         }
 
         return "redirect:/autor/list"; // Mantive a barra inicial aqui
@@ -68,7 +68,7 @@ public class AutorController {
     public String delete(Model model, @RequestParam("id") int id) {
         Optional<Autor> autor = autorRepo.findById(id);
 
-        if(genero.isPresent()) {
+        if(autor.isPresent()) {
             model.addAttribute("autor", autor.get());
             return "/autor/delete"; // Removi a barra inicial aqui
         }
