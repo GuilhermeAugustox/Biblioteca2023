@@ -78,7 +78,7 @@ public class AutorController {
 
     @RequestMapping(value="/delete", method = RequestMethod.POST)
     public String delete(@RequestParam("id") int id) {
-        generoRepo.deleteById(id);
+        autorRepo.deleteById(id);
         return "redirect:/autor/list"; // Mantive a barra inicial aqui
     }
 }
