@@ -78,7 +78,7 @@ public class LivroController {
     public String delete(Model model, @RequestParam("id") int id) {
         Optional<Livro> livro = livroRepo.findById(id);
 
-        if(autor.isPresent()) {
+        if(livro.isPresent()) {
             model.addAttribute("livro", livro.get());
             return "/livro/delete"; // Removi a barra inicial aqui
         }
