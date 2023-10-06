@@ -41,7 +41,7 @@ public class LivroController {
 
     @RequestMapping(value="/insert", method=RequestMethod.POST)
     public String insert(@RequestParam("nome") String nome) {
-        Autor autor = new Livro();
+        Livro licro = new livro();
         autor.setNome(nome);
         autorRepo.save(autor);
         return "redirect:/livro/list"; // Mantive a barra inicial aqui
@@ -49,14 +49,14 @@ public class LivroController {
 
     @RequestMapping("/update")
     public String update(Model model, @RequestParam("id") int id) {
-        Optional<Autor> autor = autorRepo.findById(id);
+        Optional<Livro> livro = autorRepo.findById(id);
 
         if(autor.isPresent()) {
-            model.addAttribute("autor", autor.get());
-            return "/autor/update"; // Removi a barra inicial aqui
+            model.addAttribute("livro", autor.get());
+            return "/livro/update"; // Removi a barra inicial aqui
         }
 
-        return "redirect:/autor/list";
+        return "redirect:/livro/list";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -64,31 +64,31 @@ public class LivroController {
         @RequestParam("id") int id,
         @RequestParam("nome") String nome
     ) {
-        Optional<Autor> autor = autorRepo.findById(id);
+        Optional<Autor> autor = livroRepo.findById(id);
 
-        if(autor.isPresent()) {
-            autor.get().setNome(nome);
-            autorRepo.save(autor.get());
+        if(livro.isPresent()) {
+            livro.get().setNome(nome);
+            livroRepo.save(livro.get());
         }
 
-        return "redirect:/autor/list"; // Mantive a barra inicial aqui
+        return "redirect:/livro/list"; // Mantive a barra inicial aqui
     }
 
     @RequestMapping("/delete")
     public String delete(Model model, @RequestParam("id") int id) {
-        Optional<Autor> autor = autorRepo.findById(id);
+        Optional<Livro> livro = livroRepo.findById(id);
 
         if(autor.isPresent()) {
-            model.addAttribute("autor", autor.get());
-            return "/autor/delete"; // Removi a barra inicial aqui
+            model.addAttribute("livro", livro.get());
+            return "/livro/delete"; // Removi a barra inicial aqui
         }
 
-        return "redirect:/genero/list";
+        return "redirect:/livro/list";
     }
 
     @RequestMapping(value="/delete", method = RequestMethod.POST)
     public String delete(@RequestParam("id") int id) {
-        autorRepo.deleteById(id);
-        return "redirect:/autor/list"; // Mantive a barra inicial aqui
+        livroRepo.deleteById(id);
+        return "redirect:/livro/list"; // Mantive a barra inicial aqui
     }
 }
