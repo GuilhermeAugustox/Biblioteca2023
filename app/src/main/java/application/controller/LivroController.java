@@ -9,11 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import application.model.Autor;
-import application.model.Livro;
-import application.model.Genero;
+import application.model.Livro; // Importe a classe Livro
 import application.model.AutorRepository;
-import application.model.GeneroRepository;
 import application.model.LivroRepository;
 
 @Controller
@@ -25,35 +22,32 @@ public class LivroController {
     @Autowired
     private LivroRepository livroRepo;
 
-    @Autowired
-    private GeneroRepository generoRepo;
-
     @RequestMapping("/list")
     public String list(Model model) {
-        model.addAttribute("livros", autorRepo.findAll());
-        return "/livro/list"; // Removi a barra inicial aqui
+        model.addAttribute("livros", livroRepo.findAll()); // Corrigido para livroRepo
+        return "/livro/list";
     }
     
     @RequestMapping("/insert")
     public String insert() {
-        return "/livro/insert"; // Removi a barra inicial aqui
+        return "/livro/insert";
     }
 
     @RequestMapping(value="/insert", method=RequestMethod.POST)
-    public String insert(@RequestParam("nome") String nome) {
-        Livro licro = new livro();
-        autor.setNome(nome);
-        autorRepo.save(autor);
-        return "redirect:/livro/list"; // Mantive a barra inicial aqui
+    public String insert(@RequestParam("titulo") String titulo) { // Corrigido para "titulo"
+        Livro livro = new Livro(); // Corrigido para "Livro"
+        livro.setTitulo(titulo); // Corrigido para "setTitulo"
+        livroRepo.save(livro); // Corrigido para livroRepo
+        return "redirect:/livro/list";
     }
 
     @RequestMapping("/update")
     public String update(Model model, @RequestParam("id") int id) {
-        Optional<Livro> livro = autorRepo.findById(id);
+        Optional<Livro> livro = livroRepo.findById(id); // Corrigido para livroRepo
 
-        if(autor.isPresent()) {
-            model.addAttribute("livro", autor.get());
-            return "/livro/update"; // Removi a barra inicial aqui
+        if(livro.isPresent()) {
+            model.addAttribute("livro", livro.get());
+            return "/livro/update";
         }
 
         return "redirect:/livro/list";
@@ -62,25 +56,25 @@ public class LivroController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(
         @RequestParam("id") int id,
-        @RequestParam("nome") String nome
+        @RequestParam("titulo") String titulo // Corrigido para "titulo"
     ) {
-        Optional<Autor> autor = livroRepo.findById(id);
+        Optional<Livro> livro = livroRepo.findById(id); // Corrigido para livroRepo
 
         if(livro.isPresent()) {
-            livro.get().setNome(nome);
+            livro.get().setTitulo(titulo); // Corrigido para "setTitulo"
             livroRepo.save(livro.get());
         }
 
-        return "redirect:/livro/list"; // Mantive a barra inicial aqui
+        return "redirect:/livro/list";
     }
 
     @RequestMapping("/delete")
     public String delete(Model model, @RequestParam("id") int id) {
-        Optional<Livro> livro = livroRepo.findById(id);
+        Optional<Livro> livro = livroRepo.findById(id); // Corrigido para livroRepo
 
         if(livro.isPresent()) {
             model.addAttribute("livro", livro.get());
-            return "/livro/delete"; // Removi a barra inicial aqui
+            return "/livro/delete";
         }
 
         return "redirect:/livro/list";
@@ -88,7 +82,7 @@ public class LivroController {
 
     @RequestMapping(value="/delete", method = RequestMethod.POST)
     public String delete(@RequestParam("id") int id) {
-        livroRepo.deleteById(id);
-        return "redirect:/livro/list"; // Mantive a barra inicial aqui
+        livroRepo.deleteById(id); // Corrigido para livroRepo
+        return "redirect:/livro/list";
     }
 }
